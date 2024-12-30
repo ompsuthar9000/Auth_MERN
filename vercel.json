@@ -1,3 +1,4 @@
+
 {
   "version": 2,
   "routes": [
@@ -19,7 +20,7 @@
       }
     },
     {
-      "src": "server/index.js",
+      "src": "server/server.js",
       "use": "@vercel/node"
     }
   ]
