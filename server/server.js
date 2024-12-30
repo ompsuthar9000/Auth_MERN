@@ -14,6 +14,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 4000;
 
+
+
+const tmpDir = process.env.NODE_ENV === "production" ? "/tmp/uploads" : path.join(__dirname, "tmp/uploads");
+
+// Ensure the directory exists
+if (!fs.existsSync(tmpDir)) {
+  fs.mkdirSync(tmpDir, { recursive: true });
+}
+
 // Middleware setup
 app.use(express.json());
 app.use(cookieParser());
