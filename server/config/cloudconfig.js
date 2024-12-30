@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs/promises';
+// import fs from 'fs/promises';
 const uploadImage = async (filepath) => {
     cloudinary.config(
         {
@@ -18,7 +18,7 @@ const uploadImage = async (filepath) => {
         profilePicUrl = result.secure_url;
 
         // Delete the local file after upload
-        await fs.unlink(filepath);
+        // await fs.unlink(filepath);
         return profilePicUrl;
     }
 }
