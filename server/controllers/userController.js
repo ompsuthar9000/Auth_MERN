@@ -1,29 +1,52 @@
 import User from '../schema/UserSchema.js';
 import bcrypt from 'bcryptjs';
 import uploadImage from '../config/cloudconfig.js';
+import path from 'path';
+import fs from 'fs';
 
+// Define the directory for storing uploaded images
+const UPLOADS_DIR = path.join(process.cwd(), 'uploads');
 
+// Ensure the uploads directory exists
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR);
+}
 
+// Register a new user
 export const registerUser = async (req, res) => {
- 
-    try {
-      const { name, email, mobile, password } = req.body;
-      const filename = await uploadImage( req.file.path )
-    
-      const hash = await bcrypt.hash(password, 10);
+  try {
+    const { name, email, mobile, password } = req.body;
 
-      const payload = {
-        name: name,
-        email: email,
-        mobile: Number(mobile),
-        profilePicture: filename, // Save the public URL in the database
-        password: hash,
-      };
-      const newUser = await User.create(payload);
-      res.status(201).json({ message: 'User registered successfully', newUser });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    // Validate if a file was uploaded
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: 'Profile picture is required' });
     }
+
+    // Move the file to the uploads directory with a unique name
+    const ext = path.extname(req.file.originalname);
+    const uniqueFilename = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}${ext}`;
+    const newFilePath = path.join(UPLOADS_DIR, uniqueFilename);
+
+    fs.renameSync(req.file.path, newFilePath);
+
+    // Use a relative path to store the image
+    const relativeFilePath = path.relative(process.cwd(), newFilePath);
+
+    const hash = await bcrypt.hash(password, 10);
+
+    const payload = {
+      name: name,
+      email: email,
+      mobile: Number(mobile),
+      profilePicture: relativeFilePath, // Save the relative path in the database
+      password: hash,
+    };
+    const newUser = await User.create(payload);
+
+    res.status(201).json({ message: 'User registered successfully', newUser });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 // Get all users
