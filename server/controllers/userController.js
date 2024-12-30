@@ -10,7 +10,7 @@ export const registerUser = async (req, res) => {
     const { name, email, mobile, password } = req.body;
    
       
-      const filename = await uploadImage(path.join(process.cwd(),  req.file.path ))
+      // const filename = await uploadImage(path.join(process.cwd(),  req.file.path ))
     
       const hash = await bcrypt.hash(password, 10);
 
@@ -18,7 +18,7 @@ export const registerUser = async (req, res) => {
         name: name,
         email: email,
         mobile: Number(mobile),
-        profilePicture: filename, // Save the public URL in the database
+        profilePicture: req.file.path, // Save the public URL in the database
         password: hash,
       };
       const newUser = await User.create(payload);
