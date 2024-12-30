@@ -29,7 +29,7 @@ app.use(
 connectDb();
 
 // Serve static files from the 'uploads' folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("tmp/uploads", express.static(path.join(__dirname, "tmp/uploads")));
 
 // Path to the `dist` folder in the client directory
 const distPath = path.join(__dirname, "client", "dist");

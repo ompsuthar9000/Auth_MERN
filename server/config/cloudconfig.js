@@ -13,7 +13,7 @@ const uploadImage = async (filepath) => {
     if (filepath) {
         // Upload the file to Cloudinary
         const result = await cloudinary.uploader.upload(filepath, {
-            folder: 'uploads', // Optional: Save in a folder
+            folder: 'tmp/uploads', // Optional: Save in a folder
         });
         profilePicUrl = result.secure_url;
 
