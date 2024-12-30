@@ -9,6 +9,7 @@ export const registerUser = async (req, res) => {
     try {
       const { name, email, mobile, password } = req.body;
       const filename = await uploadImage( req.file.path )
+      console.log(filename)
       const hash = await bcrypt.hash(password, 10);
 
       const payload = {

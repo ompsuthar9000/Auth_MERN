@@ -1,26 +1,35 @@
-import { v2 as cloudinary } from 'cloudinary';
-// import fs from 'fs/promises';
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs/promises"; // Uncomment this to use fs.promises
+
 const uploadImage = async (filepath) => {
-    cloudinary.config(
-        {
+    try {
+        // Configure Cloudinary
+        cloudinary.config({
             cloud_name: process.env.CLOUDNAME,
             api_key: process.env.APIKEY,
-            api_secret: process.env.APISECRET
-        })
+            api_secret: process.env.APISECRET,
+        });
 
-    // Check if file was uploaded
-    let profilePicUrl = '';
-    if (filepath) {
+        if (!filepath) {
+            throw new Error("Filepath is not provided.");
+        }
+
         // Upload the file to Cloudinary
         const result = await cloudinary.uploader.upload(filepath, {
-            folder: 'tmp/uploads', // Optional: Save in a folder
+            folder: "tmp/uploads", // Optional: Save in a folder
         });
-        profilePicUrl = result.secure_url;
+
+        // Get the uploaded file URL
+        const profilePicUrl = result.secure_url;
 
         // Delete the local file after upload
         await fs.unlink(filepath);
-        return profilePicUrl;
-    }
-}
 
-export default uploadImage
+        return profilePicUrl;
+    } catch (error) {
+        console.error("Error uploading image:", error.message);
+        throw error; // Re-throw the error for the caller to handle
+    }
+};
+
+export default uploadImage;
