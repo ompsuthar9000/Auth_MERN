@@ -18,7 +18,7 @@ const uploadImage = async (filepath) => {
         profilePicUrl = result.secure_url;
 
         // Delete the local file after upload
-        // await fs.unlink(filepath);
+        await fs.unlink(filepath);
         return profilePicUrl;
     }
 }

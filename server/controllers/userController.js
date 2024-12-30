@@ -21,7 +21,7 @@ export const registerUser = async (req, res) => {
       const newUser = await User.create(payload);
       res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error });
     }
 };
 
