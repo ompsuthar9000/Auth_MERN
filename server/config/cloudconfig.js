@@ -16,7 +16,7 @@ const uploadImage = async (filepath) => {
 
         // Upload the file to Cloudinary
         const result = await cloudinary.uploader.upload(filepath, {
-            folder: "tmp", // Optional: Save in a folder
+            folder: "/tmp", // Optional: Save in a folder
         });
 
         // Get the uploaded file URL
