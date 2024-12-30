@@ -9,6 +9,7 @@ This is a MERN stack application that allows users to register with their person
 - **Update User Data:** Enables users to update their information.
 - **Delete User:** Provides functionality to delete a user from the database.
 - **Profile Picture Upload:** Supports profile picture uploads using Multer for handling file uploads.
+- **Cloudinary Integration:** Handles image uploads to the cloud using Cloudinary for better scalability and management.
 
 ## Requirements
 
@@ -26,44 +27,70 @@ Before running the application, ensure you have the following installed:
 1. Navigate to the backend directory:
    ```bash
    cd backend
+   ```
+
 2. Install dependencies using npm:
    ```bash
    npm install
-3. Create a .env file in the backend directory and add the following values:
-   ```bash
+   ```
+
+3. Create a `.env` file in the backend directory and add the following values:
+   ```env
    PORT=3000
-   DBURL="your_mongoodb_url/prectical_task"
-   DBPASSWORD="your_mongodb_password"
-   SERVER_BASE_URL="http://<your_local_ip>:3000"
-   FRONTEND_URL="http://<your_local_ip>:port"
+   DBURL="mongodb+srv://<your_mongodb_username>:<db_password>@cluster0.mongodb.net/prectical_task"
+   DBPASSWORD="<your_mongodb_password>"
+   SERVER_BASE_URL="http://127.0.0.1:3000"
+   FRONTEND_URL="http://127.0.0.1:5173"
+
+   # Cloudinary configurations
+   CLOUDNAME="<your_cloudinary_cloudname>"
+   APIKEY="<your_cloudinary_apikey>"
+   APISECRET="<your_cloudinary_apisecret>"
+   APIENVVAR="CLOUDINARY_URL=cloudinary://<your_cloudinary_apikey>:<your_cloudinary_apisecret>@<your_cloudinary_cloudname>"
+   ```
+
 4. Start the backend server:
    ```bash
    npm run dev
-   
+   ```
+
 ### Frontend Setup
+
 1. Navigate to the frontend directory:
    ```bash
    cd frontend
+   ```
+
 2. Install dependencies using npm:
    ```bash
    npm install
-3. Create a .env file in the frontend directory and add the following values:
-   ```bash
-   VITE_API_URL="http://<your_local_ip>:3000"
+   ```
+
+3. Create a `.env` file in the frontend directory and add the following values:
+   ```env
+   VITE_API_URL="http://127.0.0.1:3000"
+   ```
+
 4. Start the frontend server:
    ```bash
    npm run dev
-### Important Note: The backend blocks requests from localhost due to CORS policy. Always use the format http://127.0.0.1:<port> instead of http://localhost:<port> for both the API URL and frontend base URL in your environment files. This ensures seamless communication between the frontend and backend.
+   ```
+
+### Important Note
+
+The backend blocks requests from `localhost` due to CORS policy. Always use the format `http://127.0.0.1:<port>` instead of `http://localhost:<port>` for both the API URL and frontend base URL in your environment files. This ensures seamless communication between the frontend and backend.
+
+## Cloudinary Configuration
+
+This application uses Cloudinary for handling image uploads. Ensure you have a Cloudinary account and have created a cloud name. Add your Cloudinary credentials to the `.env` file in the backend directory as shown in the example above.
 
 ## Screenshots
 
 ### User Registration
 ![Screenshot 1](./Screenshot/create.png)
 
-### User list
+### User List
 ![Screenshot 2](./Screenshot/List.png)
 
 ### User Update
 ![Screenshot 3](./Screenshot/editUser.png)
-
-

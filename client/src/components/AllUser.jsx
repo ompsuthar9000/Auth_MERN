@@ -22,7 +22,6 @@ const UserList = () => {
     };
 
     useEffect(() => {
-        console.log(users)
         getData();
     }, []);
 
