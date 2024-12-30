@@ -3,7 +3,6 @@ import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url"; // Required for directory resolution
 import connectDb from "./config/DB.js";
 import UserRouter from "./routes/userRoutes.js";
@@ -15,14 +14,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 4000;
 
-
-
-const tmpDir = process.env.NODE_ENV === "production" ? "tmp" : path.join(__dirname, "tmp");
-
-// Ensure the directory exists
-if (!fs.existsSync(tmpDir)) {
-  fs.mkdirSync(tmpDir, { recursive: true });
-}
 
 // Middleware setup
 app.use(express.json());
@@ -38,8 +29,7 @@ app.use(
 // Connect to the database
 connectDb();
 
-// Serve static files from the 'uploads' folder
-app.use("tmp", express.static(path.join(__dirname, "tmp")));
+
 
 // Path to the `dist` folder in the client directory
 const distPath = path.join(__dirname, "client", "dist");

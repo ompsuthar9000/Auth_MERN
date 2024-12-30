@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
     try {
       const { name, email, mobile, password } = req.body;
       const filename = await uploadImage( req.file.path )
-      console.log(filename)
+    
       const hash = await bcrypt.hash(password, 10);
 
       const payload = {
@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
       const newUser = await User.create(payload);
       res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
-      res.status(500).json({ error: error });
+      res.status(500).json({ error: error.message });
     }
 };
 
