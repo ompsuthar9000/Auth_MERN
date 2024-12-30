@@ -1,0 +1,21 @@
+{
+  "name": "crud_user_main",
+  "version": "1.0.0",
+  "scripts": {
+    "client:start": "npm run start --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:install": "npm install --prefix client",
+    "server:start": "node server/server.js",
+    "server:dev": "nodemon server/server.js",
+    "install": "npm install && npm install --prefix client",
+    "build": "npm run client:build && npm run server:build",
+    "server:build": "echo 'No build command for server yet'"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
