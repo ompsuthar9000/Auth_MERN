@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const dburl = process.env.DBURl.replace('<db_password>', process.env.DBPASSWORD)
+const dburl = process.env.DBURL.replace('<db_password>', process.env.DBPASSWORD)
 
 const connectDb = async () => {
     try {
