@@ -3,7 +3,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./tmp/uploads/"); 
+        cb(null, "./tmp"); 
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = `${Date.now()}-${file.originalname}`;

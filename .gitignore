@@ -5,8 +5,8 @@ npm-debug.log
 # React build folder
 /frontend/build/
 
-# Express uploads folder (optional)
-/backend/uploads/
+
+
 
 # Environment files
 .env

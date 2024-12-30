@@ -17,7 +17,7 @@ const port = process.env.PORT || 4000;
 
 
 
-const tmpDir = process.env.NODE_ENV === "production" ? "/tmp/uploads" : path.join(__dirname, "tmp/uploads");
+const tmpDir = process.env.NODE_ENV === "production" ? "tmp" : path.join(__dirname, "tmp");
 
 // Ensure the directory exists
 if (!fs.existsSync(tmpDir)) {
@@ -39,7 +39,7 @@ app.use(
 connectDb();
 
 // Serve static files from the 'uploads' folder
-app.use("tmp/uploads", express.static(path.join(__dirname, "tmp/uploads")));
+app.use("tmp", express.static(path.join(__dirname, "tmp")));
 
 // Path to the `dist` folder in the client directory
 const distPath = path.join(__dirname, "client", "dist");
