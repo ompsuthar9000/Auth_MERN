@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url"; // Required for directory resolution
 import connectDb from "./config/DB.js";
 import UserRouter from "./routes/userRoutes.js";
