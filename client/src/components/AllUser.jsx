@@ -62,7 +62,7 @@ const UserList = () => {
             </div>
             <div className="bg-white shadow-lg rounded-lg">
                 {/* Table Header */}
-                <div className="flex bg-gray-200 font-semibold text-gray-700 p-4 rounded-t-lg">
+                <div className="flex bg-gray-200 font-semibold text-gray-700 p-4 rounded-t-lg max-sm:hidden">
                     <div className="w-1/5 text-center">Profile</div>
                     <div className="w-2/5">Name</div>
                     <div className="w-1/5">Mobile</div>
