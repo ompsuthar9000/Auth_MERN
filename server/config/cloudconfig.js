@@ -1,35 +1,32 @@
-import { v2 as cloudinary } from "cloudinary";
-import fs from "fs/promises"; // Uncomment this to use fs.promises
+// fileUpload.js
+import { v2 as cloudinary } from 'cloudinary';
 
-const uploadImage = async (filepath) => {
-    try {
-        // Configure Cloudinary
-        cloudinary.config({
-            cloud_name: process.env.CLOUDNAME,
-            api_key: process.env.APIKEY,
-            api_secret: process.env.APISECRET,
-        });
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDNAME,
+    api_key: process.env.APIKEY,
+    api_secret: process.env.APISECRET,
+});
 
-        if (!filepath) {
-            throw new Error("Filepath is not provided.");
-        }
+/**
+ * Upload file to Cloudinary
+ * @param {Buffer} fileBuffer - File buffer from Multer
+ * @param {string} folder - Cloudinary folder name
+ * @param {string} publicId - Public ID for the file
+ * @returns {Promise<Object>} - Cloudinary upload result
+ */
+export const uploadFileToCloudinary = (fileBuffer, folder, publicId) => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            { folder, public_id: publicId },
+            (error, result) => {
+                if (error) {
+                    return reject(error);
+                }
+                resolve(result);
+            }
+        );
 
-        // Upload the file to Cloudinary
-        const result = await cloudinary.uploader.upload(filepath, {
-            folder: "tmp", // Optional: Save in a folder
-        });
-
-        // Get the uploaded file URL
-        const profilePicUrl = result.secure_url;
-
-        // Delete the local file after upload
-        await fs.unlink(filepath);
-
-        return profilePicUrl;
-    } catch (error) {
-        console.error("Error uploading image:", error.message);
-        throw error; // Re-throw the error for the caller to handle
-    }
+        uploadStream.end(fileBuffer); // Pass the file buffer to the stream
+    });
 };
-
-export default uploadImage;

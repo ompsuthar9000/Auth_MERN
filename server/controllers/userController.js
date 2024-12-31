@@ -1,32 +1,49 @@
 import User from '../schema/UserSchema.js';
 import bcrypt from 'bcryptjs';
-// import uploadImage from '../config/cloudconfig.js';
-
-
+import { uploadFileToCloudinary } from '../config/cloudconfig.js'; // Import the Cloudinary upload function
 
 export const registerUser = async (req, res) => {
-  
-  try {
-    const { name, email, mobile, password } = req.body;
-   
-      
-      // const filename = await uploadImage(path.join(process.cwd(),  req.file.path ))
-    
-      const hash = await bcrypt.hash(password, 10);
+    try {
+        const { name, email, mobile, password } = req.body;
 
-      const payload = {
-        name: name,
-        email: email,
-        mobile: Number(mobile),
-        profilePicture: req.file.path, // Save the public URL in the database
-        password: hash,
-      };
-      const newUser = await User.create(payload);
-      res.status(201).json({ message: 'User registered successfully', newUser });
+        // Validate required fields
+        if (!name || !email || !mobile || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Hash the password
+        const hash = await bcrypt.hash(password, 10);
+
+        let profilePictureUrl = null;
+        if (req.file) {
+            // Upload file to Cloudinary
+            const cloudinaryResult = await uploadFileToCloudinary(
+                req.file.buffer, // File buffer from Multer
+                'user_profiles', // Cloudinary folder
+                Date.now() + '-' + req.file.originalname // Unique public ID
+            );
+            profilePictureUrl = cloudinaryResult.secure_url; // Get the secure URL
+        }
+
+        // Create the user payload
+        const payload = {
+            name,
+            email,
+            mobile: Number(mobile),
+            profilePicture: profilePictureUrl, // Save the Cloudinary URL in the database
+            password: hash,
+        };
+
+        // Save user in the database
+        const newUser = await User.create(payload);
+
+        res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        console.error('Error during user registration:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 // Get all users
 export const getAllUsers = async (req, res) => {
