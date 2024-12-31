@@ -1,6 +1,6 @@
 import User from '../schema/UserSchema.js';
 import bcrypt from 'bcryptjs';
-import uploadImage from '../config/cloudconfig.js';
+// import uploadImage from '../config/cloudconfig.js';
 
 
 
